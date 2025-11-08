@@ -35,7 +35,7 @@ export default function Home() {
       <div className="absolute inset-0 bg-black/30" />
       <div className="relative h-full flex items-center pt-20 px-8 md:px-16 lg:px-24">
         <motion.div
-          className="max-w-4xl flex flex-col items-start justify-start gap-6"
+          className="max-w-4xl flex flex-col items-center justify-start gap-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -121,6 +121,11 @@ export default function Home() {
             <span>🐾</span>
             <span>🐾</span>
           </motion.div>
+        <Link  href={"/galeria"}>
+          <motion.button  variants={variants} transition={{ duration: 0.5 }} className="backdrop-blur-md text-[20px] cursor-pointer text-white bg-white/10 border-2 border-white/20 rounded-2xl p-6 shadow-2xl hover:bg-white/15 transition-all duration-300">
+            Conhecer Gatinhos
+          </motion.button>
+          </Link>
         </motion.div>
       </div>
     </div>
