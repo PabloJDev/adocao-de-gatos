@@ -1,2 +1,8 @@
 @import "tailwindcss";
 
+.no-spinner-opacity::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  opacity: 0;           /* invisível */
+  pointer-events: auto; /* deixar clicável; use 'none' se quiser desabilitar */
+  margin: 0;
+}
