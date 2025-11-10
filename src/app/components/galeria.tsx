@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import NavBar from "./navBar";
+import Link from "next/link";
 
 interface CatImage {
   id: string;
@@ -162,7 +163,7 @@ export default function Galeria() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="flex justify-center mt-10 pb-10"
+            className="flex justify-center mt-10 pb-10 gap-5"
           >
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -172,6 +173,15 @@ export default function Galeria() {
             >
               Carregar Mais Gatinhos
             </motion.button>
+             <Link href={""}>
+              <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={fetchCats}
+              className="bg-fuchsia-900 text-white px-10 py-4 rounded-xl font-bold text-lg shadow-2xl hover:bg-fuchsia-800 transition-colors"
+            >
+              Continuar para Adoção
+            </motion.button></Link>
           </motion.div>
         )}
       </div>
