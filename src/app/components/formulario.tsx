@@ -22,16 +22,17 @@ const variants = {
 export default function formulario() {
   return (
     <div className="min-h-screen relative">
-      <Image
+       <div className="fixed inset-0 -z-10">
+        <Image
         src="/gatinhofundo.jpg"
-        alt="gatofundo"
+        alt="Fundo de gatinho"
         fill
         priority
         quality={100}
         className="object-cover"
-      />
-
-      <div className="absolute inset-0 bg-black/30" />
+        />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
 
       <NavBar />
 
