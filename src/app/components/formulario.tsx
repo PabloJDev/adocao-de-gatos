@@ -1,8 +1,10 @@
-'use client'
-import NavBar from "./navBar"
-import Image from "next/image"
+"use client";
+import NavBar from "./navBar";
+import Image from "next/image";
 import { motion } from "framer-motion";
- 
+import ButtonsFormulario from "../formulario/buttons";
+
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -18,18 +20,17 @@ const variants = {
   visible: { opacity: 1, y: 0 },
 };
 
-
 export default function formulario() {
   return (
     <div className="min-h-screen relative">
-       <div className="fixed inset-0 -z-10">
+      <div className="fixed inset-0 -z-10">
         <Image
-        src="/gatinhofundo.jpg"
-        alt="Fundo de gatinho"
-        fill
-        priority
-        quality={100}
-        className="object-cover"
+          src="/gatinhofundo.jpg"
+          alt="Fundo de gatinho"
+          fill
+          priority
+          quality={100}
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-black/40" />
       </div>
@@ -50,106 +51,101 @@ export default function formulario() {
 
         <motion.div
           variants={containerVariants}
-          transition={{duration: 0.5}}
+          transition={{ duration: 0.5 }}
           initial="hidden"
           animate="visible"
           className="backdrop-blur-md bg-white/10 border-2 border-white/20 rounded-2xl p-6 shadow-2xl hover:bg-white/15 transition-all duration-300 w-full max-w-2xl"
         >
           <div>
-           <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-            <label className="block">
-              <span className="text-white mb-2 block">Nome Completo:</span>
-              <input
-                type="text"
-                className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
-                placeholder="Digite seu nome completo"
-              />
-            </label>
-          </motion.div> 
-             <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-            <label className="block">
-              <span className="text-white mb-2 block">Telefone</span>
-              <input
-                type="number"
-                className="no-spinner-opacity w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
-                placeholder="Digite seu numero de telefone"
-              />
-            </label>
-          </motion.div> 
-              <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-            <label className="block">
-              <span className="text-white mb-2 block">cpf:</span>
-              <input
-                type="number"
-                className="no-spinner-opacity w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
-                placeholder="Digite seu cpf"
-              />
-            </label>
-          </motion.div> 
-               <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-            <label className="block">
-              <span className="text-white mb-2 block">Idade:</span>
-              <input
-                type="number"
-                className="no-spinner-opacity w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
-                placeholder="Digite sua idade"
-              />
-            </label>
-          </motion.div> 
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">Nome Completo:</span>
+                <input
+                  type="text"
+                  className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite seu nome completo"
+                />
+              </label>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">Telefone</span>
+                <input
+                  type="number"
+                  className="no-spinner-opacity w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite seu numero de telefone"
+                />
+              </label>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">cpf:</span>
+                <input
+                  type="number"
+                  className="no-spinner-opacity w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite seu cpf"
+                />
+              </label>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">Idade:</span>
+                <input
+                  type="number"
+                  className="no-spinner-opacity w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite sua idade"
+                />
+              </label>
+            </motion.div>
 
             <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-            <label className="block">
-              <span className="text-white mb-2 block">Email</span>
-              <input
-                type="email"
-                className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
-                placeholder="Digite seu email"
-              />
-            </label>
-          </motion.div> 
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">Email</span>
+                <input
+                  type="email"
+                  className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite seu email"
+                />
+              </label>
+            </motion.div>
 
             <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          >
-            <label className="block">
-              <span className="text-white mb-2 block">Endereço:</span>
-              <input
-                type="text"
-                className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
-                placeholder="Digite seu endereço"
-              />
-            </label>
-          </motion.div> 
-         
-            <motion.button
-              variants={variants}
-              whileHover={{scale: 1.02}}
-              whileTap={{scale: 0.98}}
-              className='mt-5 w-full p-3 bg-fuchsia-500 text-white rounded-lg font-semibold hover:bg-fuchsia-600 transition-colors'>
-               Enviar Formulário
-            </motion.button>
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">Endereço:</span>
+                <input
+                  type="text"
+                  className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite seu endereço"
+                />
+              </label>
+            </motion.div>
+
+            <ButtonsFormulario/>
+
           </div>
         </motion.div>
       </div>
