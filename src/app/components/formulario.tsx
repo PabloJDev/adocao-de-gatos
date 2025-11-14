@@ -1,8 +1,9 @@
 "use client";
+
 import NavBar from "./navBar";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import ButtonsFormulario from "../formulario/buttons";
+import ButtonsFormulario from "./buttonsFormulario";
 
 
 const containerVariants = {
@@ -143,10 +144,8 @@ export default function formulario() {
                 />
               </label>
             </motion.div>
-
-            <ButtonsFormulario/>
-
           </div>
+          <ButtonsFormulario />
         </motion.div>
       </div>
     </div>
