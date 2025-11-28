@@ -21,16 +21,90 @@ export default function Certificado() {
 
     async function generatePDF() {
     if (!certRef.current) return;
+        setLoading(true);
 
-    setLoading(true);
+        async function preloadImages(container: HTMLDivElement) {
+            const urls = new Set<string>();
 
-    try {
-        const canvas = await html2canvas(certRef.current, {
-            scale: 2,
-            useCORS: true,
-            logging: false,
-            backgroundColor: "#ffffff",
-        });
+            const imgs = Array.from(container.querySelectorAll('img')) as HTMLImageElement[];
+            imgs.forEach((i) => i.src && urls.add(i.src));
+
+            const elements = Array.from(container.querySelectorAll('*')) as HTMLElement[];
+            elements.forEach((el) => {
+                try {
+                    const bg = getComputedStyle(el).backgroundImage;
+                    const match = bg && bg.match(/url\((?:\"|\')?(.*?)(?:\"|\')?\)/);
+                    if (match && match[1]) urls.add(match[1]);
+                } catch (e) {
+                }
+            });
+
+            await Promise.all(
+                Array.from(urls).map(
+                            (url) =>
+                                new Promise((res) => {
+                                    const img = document.createElement('img') as HTMLImageElement;
+                                    try {
+                                        img.crossOrigin = 'anonymous';
+                                    } catch (e) {
+                                    }
+                                    img.onload = () => res(null);
+                                    img.onerror = () => {
+                                        console.warn('failed to preload', url);
+                                        res(null);
+                                    };
+                                    img.src = url;
+                                })
+                )
+            );
+        }
+
+            try {
+                    await preloadImages(certRef.current);
+
+                    const clone = certRef.current.cloneNode(true) as HTMLElement;
+                    clone.style.position = "absolute";
+                    clone.style.left = "-9999px";
+                    clone.style.top = "0";
+                    clone.style.maxWidth = "1123px";
+                    clone.setAttribute("data-html2canvas-clone", "true");
+                    document.body.appendChild(clone);
+
+                 
+                    const sanitize = (root: HTMLElement) => {
+                        const all = Array.from(root.querySelectorAll<HTMLElement>("*"));
+                        all.push(root);
+                        for (const el of all) {
+                            try {
+                                const cs = getComputedStyle(el);
+                                const props: Array<{js:string; css:string; fallback:string}> = [
+                                    { js: "color", css: "color", fallback: "#000" },
+                                    { js: "backgroundColor", css: "background-color", fallback: "#fff" },
+                                    { js: "borderColor", css: "border-color", fallback: "#d4a373" },
+                                    { js: "boxShadow", css: "box-shadow", fallback: "none" },
+                                ];
+                                for (const p of props) {
+                                    const val = (cs as any)[p.js] as string;
+                                    if (val && /(lab\(|lch\(|oklab\()/i.test(val)) {
+                                        el.style.setProperty(p.css, p.fallback, "important");
+                                    }
+                                }
+                            } catch (e) {
+                            }
+                        }
+                    };
+
+                    sanitize(clone);
+
+                    const canvas = await html2canvas(clone, {
+                            scale: 2,
+                            useCORS: true,
+                            allowTaint: false,
+                            logging: false,
+                            backgroundColor: "#ffffff",
+                    });
+                    // remove clone after rendering
+                    document.body.removeChild(clone);
 
         const imgData = canvas.toDataURL("image/png");
 
@@ -68,9 +142,10 @@ export default function Certificado() {
 
         pdf.save(`certificado-${adopterName || "adotante"}-${petName || "pet"}.pdf`);
 
-    } catch (err) {
-        console.error(err);
-        alert("Erro ao gerar PDF.");
+    } catch (err: any) {
+        console.error('generatePDF error:', err);
+        const msg = err?.message || String(err);
+        alert("Erro ao gerar PDF: " + msg);
     }
 
     setLoading(false);
@@ -93,59 +168,12 @@ export default function Certificado() {
 
             <NavBar />
 
-            <main className="max-w-5xl mx-auto mt-20 text-white">
-                <h1 className="text-3xl font-semibold mb-6">Gerador de Certificado</h1>
+            <main className="max-w-5xl mx-auto mt-20 bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent">
+                <h1 className="text-5xl font-semibold mb-6">Gerador de Certificado</h1>
 
                 <section className="grid md:grid-cols-2 gap-6 mb-8">
                     
-                    <div className="bg-white/10 p-6 rounded-lg">
-                        <label className="block mb-3">
-                            <span className="text-sm">Nome do adotante</span>
-                            <input
-                                type="text"
-                                value={adopterName}
-                                onChange={(e) => setAdopterName(e.target.value)}
-                                className="mt-1 w-full rounded px-3 py-2 bg-white/20 text-white"
-                                placeholder="Nome completo"
-                            />
-                        </label>
-
-                        <label className="block mb-3">
-                            <span className="text-sm">Nome do pet</span>
-                            <input
-                                type="text"
-                                value={petName}
-                                onChange={(e) => setPetName(e.target.value)}
-                                className="mt-1 w-full rounded px-3 py-2 bg-white/20 text-white"
-                                placeholder="Nome do gatinho"
-                            />
-                        </label>
-
-                        <label className="block mb-4">
-                            <span className="text-sm">Data de adoção</span>
-                            <input
-                                type="date"
-                                value={adoptionDate}
-                                onChange={(e) => setAdoptionDate(e.target.value)}
-                                className="mt-1 w-full rounded px-3 py-2 bg-white/20 text-white"
-                            />
-                        </label>
-
-                        <div className="flex gap-3">
-                            <motion.button
-                                onClick={generatePDF}
-                                whileTap={{ scale: 0.98 }}
-                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-                                disabled={loading}
-                            >
-                                {loading ? "Gerando..." : "Baixar PDF"}
-                            </motion.button>
-
-                            <Link href="#" className="bg-white/10 text-white px-4 py-2 rounded flex items-center">
-                                Cancelar
-                            </Link>
-                        </div>
-                    </div>
+                  
 
                     <div className="flex items-center justify-center">
                         <div className="bg-white/20 p-4 rounded w-full">
@@ -154,7 +182,7 @@ export default function Certificado() {
 
                             <div
                                 ref={certRef}
-                                className="relative mx-auto bg-white text-black p-10 flex flex-col items-center justify-center font-serif"
+                                className="relative mx-auto bg-fuchsia-100 text-black p-10 flex flex-col items-center justify-center font-serif"
                                 style={{
                                     width: "1123px",
                                     height: "794px",
@@ -184,13 +212,13 @@ export default function Certificado() {
                                     <p className="text-xl mb-6 italic">Certificamos que</p>
 
                                     <h3 className="text-3xl font-semibold mb-4">
-                                        {adopterName || "____________________"}
+                                        {adopterName || "xxxxxxxxx"}
                                     </h3>
 
                                     <p className="text-xl mb-6">adotou com amor o gatinho</p>
 
                                     <h4 className="text-2xl font-medium mb-6">
-                                        {petName || "____________________"}
+                                        {petName || "xxxxxxxxxxxx"}
                                     </h4>
 
                                     <p className="text-lg mb-10">em {adoptionDate}</p>
@@ -214,6 +242,19 @@ export default function Certificado() {
                             <p className="text-xs text-white/70 mt-2">
                                
                             </p>
+                            <div className="flex justify-center gap-4 mt-4">
+                            <button
+                                onClick={generatePDF}
+                                disabled={loading}
+                                className="mt-4 px-6 py-3 bg-fuchsia-500 text-white rounded-lg font-semibold hover:bg-fuchsia-600 transition-colors disabled:opacity-60"
+                            >
+                                {loading ? "Gerando..." : "Baixar Certificado"}
+                            </button>
+
+                            <Link href="/" className="mt-4 px-6 py-3 bg-fuchsia-500 text-white rounded-lg font-medium hover:bg-fuchsia-600 transition-colors">
+                                Voltar
+                            </Link>
+                        </div>
                         </div>
                     </div>
 
