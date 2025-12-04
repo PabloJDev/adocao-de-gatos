@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -40,16 +41,18 @@ export default function ButtonsFormulario() {
   return (
     <>
       {/*botões*/}
-      <div className="flex gap-12 mt-5 w-full justify-center">
-        <motion.button
+      <div className="flex gap-12 mt-5 w-full justify-center items-center">
+        <Link className="w-full" href={"/certificado"}>
+         <motion.button
           variants={variants}
           whileHover="hover"
           whileTap="tap"
           onClick={handleFinalizar}
           className="mt-5 w-1/3 p-3 bg-fuchsia-500 text-white rounded-lg font-semibold hover:bg-fuchsia-600 transition-colors"
         >
-          Finalizar
+          Gerar Certificado
         </motion.button>
+        </Link>
 
         <motion.button
           variants={variants}
