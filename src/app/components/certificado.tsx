@@ -21,90 +21,16 @@ export default function Certificado() {
 
     async function generatePDF() {
     if (!certRef.current) return;
-        setLoading(true);
 
-        async function preloadImages(container: HTMLDivElement) {
-            const urls = new Set<string>();
+    setLoading(true);
 
-            const imgs = Array.from(container.querySelectorAll('img')) as HTMLImageElement[];
-            imgs.forEach((i) => i.src && urls.add(i.src));
-
-            const elements = Array.from(container.querySelectorAll('*')) as HTMLElement[];
-            elements.forEach((el) => {
-                try {
-                    const bg = getComputedStyle(el).backgroundImage;
-                    const match = bg && bg.match(/url\((?:\"|\')?(.*?)(?:\"|\')?\)/);
-                    if (match && match[1]) urls.add(match[1]);
-                } catch (e) {
-                }
-            });
-
-            await Promise.all(
-                Array.from(urls).map(
-                            (url) =>
-                                new Promise((res) => {
-                                    const img = document.createElement('img') as HTMLImageElement;
-                                    try {
-                                        img.crossOrigin = 'anonymous';
-                                    } catch (e) {
-                                    }
-                                    img.onload = () => res(null);
-                                    img.onerror = () => {
-                                        console.warn('failed to preload', url);
-                                        res(null);
-                                    };
-                                    img.src = url;
-                                })
-                )
-            );
-        }
-
-            try {
-                    await preloadImages(certRef.current);
-
-                    const clone = certRef.current.cloneNode(true) as HTMLElement;
-                    clone.style.position = "absolute";
-                    clone.style.left = "-9999px";
-                    clone.style.top = "0";
-                    clone.style.maxWidth = "1123px";
-                    clone.setAttribute("data-html2canvas-clone", "true");
-                    document.body.appendChild(clone);
-
-                 
-                    const sanitize = (root: HTMLElement) => {
-                        const all = Array.from(root.querySelectorAll<HTMLElement>("*"));
-                        all.push(root);
-                        for (const el of all) {
-                            try {
-                                const cs = getComputedStyle(el);
-                                const props: Array<{js:string; css:string; fallback:string}> = [
-                                    { js: "color", css: "color", fallback: "#000" },
-                                    { js: "backgroundColor", css: "background-color", fallback: "#fff" },
-                                    { js: "borderColor", css: "border-color", fallback: "#d4a373" },
-                                    { js: "boxShadow", css: "box-shadow", fallback: "none" },
-                                ];
-                                for (const p of props) {
-                                    const val = (cs as any)[p.js] as string;
-                                    if (val && /(lab\(|lch\(|oklab\()/i.test(val)) {
-                                        el.style.setProperty(p.css, p.fallback, "important");
-                                    }
-                                }
-                            } catch (e) {
-                            }
-                        }
-                    };
-
-                    sanitize(clone);
-
-                    const canvas = await html2canvas(clone, {
-                            scale: 2,
-                            useCORS: true,
-                            allowTaint: false,
-                            logging: false,
-                            backgroundColor: "#ffffff",
-                    });
-                    // remove clone after rendering
-                    document.body.removeChild(clone);
+    try {
+        const canvas = await html2canvas(certRef.current, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: "#ffffff",
+        });
 
         const imgData = canvas.toDataURL("image/png");
 
@@ -142,10 +68,9 @@ export default function Certificado() {
 
         pdf.save(`certificado-${adopterName || "adotante"}-${petName || "pet"}.pdf`);
 
-    } catch (err: any) {
-        console.error('generatePDF error:', err);
-        const msg = err?.message || String(err);
-        alert("Erro ao gerar PDF: " + msg);
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao gerar PDF.");
     }
 
     setLoading(false);
@@ -168,12 +93,12 @@ export default function Certificado() {
 
             <NavBar />
 
-            <main className="max-w-5xl mx-auto mt-20 bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent">
-                <h1 className="text-5xl font-semibold mb-6">Gerador de Certificado</h1>
+            <main className="max-w-5xl mx-auto mt-20 text-white">
+                <h1 className="text-5xl font-bold bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent  drop-shadow-2xl mb-4 mb-6">Gerador de Certificado</h1>
 
                 <section className="grid md:grid-cols-2 gap-6 mb-8">
                     
-                  
+                   
 
                     <div className="flex items-center justify-center">
                         <div className="bg-white/20 p-4 rounded w-full">
@@ -182,7 +107,7 @@ export default function Certificado() {
 
                             <div
                                 ref={certRef}
-                                className="relative mx-auto bg-fuchsia-100 text-black p-10 flex flex-col items-center justify-center font-serif"
+                                className="relative mx-auto bg-white text-black p-10 flex flex-col items-center justify-center font-serif"
                                 style={{
                                     width: "1123px",
                                     height: "794px",
@@ -212,13 +137,12 @@ export default function Certificado() {
                                     <p className="text-xl mb-6 italic">Certificamos que</p>
 
                                     <h3 className="text-3xl font-semibold mb-4">
-                                        {adopterName || "xxxxxxxxx"}
+                                        {adopterName || "xxxxxxxxxxxxxxxxx"}
                                     </h3>
-
                                     <p className="text-xl mb-6">adotou com amor o gatinho</p>
 
                                     <h4 className="text-2xl font-medium mb-6">
-                                        {petName || "xxxxxxxxxxxx"}
+                                        {petName || "xxxxxxxxxxxxxxxx"}
                                     </h4>
 
                                     <p className="text-lg mb-10">em {adoptionDate}</p>
@@ -238,23 +162,24 @@ export default function Certificado() {
                                     <div className="mt-2">{adoptionDate}</div>
                                 </div>
                             </div>
+                             <div className="flex gap-3 mt-5 items-center justify-center">
+                            <motion.button
+                                onClick={generatePDF}
+                                whileTap={{ scale: 0.98 }}
+                                className="bg-fuchsia-400 hover:bg-fuchsia-500 cursor-pointer text-white px-4 py-2 rounded"
+                                disabled={loading}
+                            >
+                                {loading ? "Gerando..." : "Baixar PDF"}
+                            </motion.button>
+
+                            <Link href="#" className="bg-white/10 text-white px-4 py-2 rounded flex items-center">
+                                Cancelar
+                            </Link>
+                        </div>
 
                             <p className="text-xs text-white/70 mt-2">
                                
                             </p>
-                            <div className="flex justify-center gap-4 mt-4">
-                            <button
-                                onClick={generatePDF}
-                                disabled={loading}
-                                className="mt-4 px-6 py-3 bg-fuchsia-500 text-white rounded-lg font-semibold hover:bg-fuchsia-600 transition-colors disabled:opacity-60"
-                            >
-                                {loading ? "Gerando..." : "Baixar Certificado"}
-                            </button>
-
-                            <Link href="/" className="mt-4 px-6 py-3 bg-fuchsia-500 text-white rounded-lg font-medium hover:bg-fuchsia-600 transition-colors">
-                                Voltar
-                            </Link>
-                        </div>
                         </div>
                     </div>
 
