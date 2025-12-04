@@ -72,7 +72,7 @@ export default function Certificado() {
         console.error(err);
         alert("Erro ao gerar PDF.");
     }
-
+    alert("Certificado gerado com sucesso!");
     setLoading(false);
 }
 
@@ -184,13 +184,13 @@ export default function Certificado() {
                                     <p className="text-xl mb-6 italic">Certificamos que</p>
 
                                     <h3 className="text-3xl font-semibold mb-4">
-                                        {adopterName || "____________________"}
+                                        {adopterName || "_____________"}
                                     </h3>
 
                                     <p className="text-xl mb-6">adotou com amor o gatinho</p>
 
                                     <h4 className="text-2xl font-medium mb-6">
-                                        {petName || "____________________"}
+                                        {petName || "__________________"}
                                     </h4>
 
                                     <p className="text-lg mb-10">em {adoptionDate}</p>
@@ -202,7 +202,7 @@ export default function Certificado() {
 
                                 <div className="absolute bottom-20 left-20 text-xs">
                                     <p>Assinatura do responsável</p>
-                                    <div className="w-48 h-8 border-b mt-2" />
+                                    <div className="w-36 h-8 border-b mt-2" />
                                 </div>
 
                                 <div className="absolute bottom-20 right-20 text-xs text-right">
