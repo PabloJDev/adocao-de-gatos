@@ -94,7 +94,7 @@ export default function Galeria() {
           transition={{ duration: 0.5 }}
           className="text-center mb-10 pt-20"
         >
-          <h1 className="text-5xl font-bold text-white drop-shadow-2xl mb-4">
+          <h1 className="text-5xl font-bold bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent  drop-shadow-2xl mb-4">
             Galeria de Gatinhos
           </h1>
           <p className="text-xl text-white/90 drop-shadow-lg">
@@ -173,7 +173,7 @@ export default function Galeria() {
             >
               Carregar Mais Gatinhos
             </motion.button>
-             <Link href={""}>
+             <Link href={"/formulario"}>
               <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

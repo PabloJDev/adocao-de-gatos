@@ -45,7 +45,7 @@ export default function formulario() {
           transition={{ duration: 0.5 }}
           className="mb-10"
         >
-          <h1 className="text-5xl font-bold text-white drop-shadow-2xl mb-4 ml-15">
+          <h1 className="text-5xl font-bold bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent drop-shadow-2xl mb-4 ml-15">
             Formulario de Adoção
           </h1>
         </motion.div>
@@ -69,6 +69,20 @@ export default function formulario() {
                   type="text"
                   className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
                   placeholder="Digite seu nome completo"
+                />
+              </label>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <label className="block">
+                <span className="text-white mb-2 block">Nome do Gatinho:</span>
+                <input
+                  type="text"
+                  className="w-full p-3 rounded-lg border border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-fuchsia-400 transition"
+                  placeholder="Digite o nome do gatinho"
                 />
               </label>
             </motion.div>

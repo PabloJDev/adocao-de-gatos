@@ -94,58 +94,11 @@ export default function Certificado() {
             <NavBar />
 
             <main className="max-w-5xl mx-auto mt-20 text-white">
-                <h1 className="text-3xl font-semibold mb-6">Gerador de Certificado</h1>
+                <h1 className="text-5xl font-bold bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent  drop-shadow-2xl  mb-6">Gerador de Certificado</h1>
 
                 <section className="grid md:grid-cols-2 gap-6 mb-8">
                     
-                    <div className="bg-white/10 p-6 rounded-lg">
-                        <label className="block mb-3">
-                            <span className="text-sm">Nome do adotante</span>
-                            <input
-                                type="text"
-                                value={adopterName}
-                                onChange={(e) => setAdopterName(e.target.value)}
-                                className="mt-1 w-full rounded px-3 py-2 bg-white/20 text-white"
-                                placeholder="Nome completo"
-                            />
-                        </label>
-
-                        <label className="block mb-3">
-                            <span className="text-sm">Nome do pet</span>
-                            <input
-                                type="text"
-                                value={petName}
-                                onChange={(e) => setPetName(e.target.value)}
-                                className="mt-1 w-full rounded px-3 py-2 bg-white/20 text-white"
-                                placeholder="Nome do gatinho"
-                            />
-                        </label>
-
-                        <label className="block mb-4">
-                            <span className="text-sm">Data de adoção</span>
-                            <input
-                                type="date"
-                                value={adoptionDate}
-                                onChange={(e) => setAdoptionDate(e.target.value)}
-                                className="mt-1 w-full rounded px-3 py-2 bg-white/20 text-white"
-                            />
-                        </label>
-
-                        <div className="flex gap-3">
-                            <motion.button
-                                onClick={generatePDF}
-                                whileTap={{ scale: 0.98 }}
-                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-                                disabled={loading}
-                            >
-                                {loading ? "Gerando..." : "Baixar PDF"}
-                            </motion.button>
-
-                            <Link href="#" className="bg-white/10 text-white px-4 py-2 rounded flex items-center">
-                                Cancelar
-                            </Link>
-                        </div>
-                    </div>
+                   
 
                     <div className="flex items-center justify-center">
                         <div className="bg-white/20 p-4 rounded w-full">
@@ -184,13 +137,14 @@ export default function Certificado() {
                                     <p className="text-xl mb-6 italic">Certificamos que</p>
 
                                     <h3 className="text-3xl font-semibold mb-4">
-                                        {adopterName || "_____________"}
-                                    </h3>
+                                        {adopterName || "xxxxxxxxxxxxxxxxx"}
 
+                                    </h3>
                                     <p className="text-xl mb-6">adotou com amor o gatinho</p>
 
                                     <h4 className="text-2xl font-medium mb-6">
-                                        {petName || "__________________"}
+                                        {petName || "xxxxxxxxxxxxxxxx"}
+
                                     </h4>
 
                                     <p className="text-lg mb-10">em {adoptionDate}</p>
@@ -210,6 +164,20 @@ export default function Certificado() {
                                     <div className="mt-2">{adoptionDate}</div>
                                 </div>
                             </div>
+                             <div className="flex gap-3 mt-5 items-center justify-center">
+                            <motion.button
+                                onClick={generatePDF}
+                                whileTap={{ scale: 0.98 }}
+                                className="bg-fuchsia-400 hover:bg-fuchsia-500 cursor-pointer text-white px-4 py-2 rounded"
+                                disabled={loading}
+                            >
+                                {loading ? "Gerando..." : "Baixar PDF"}
+                            </motion.button>
+
+                            <Link href="#" className="bg-white/10 text-white px-4 py-2 rounded flex items-center">
+                                Cancelar
+                            </Link>
+                        </div>
 
                             <p className="text-xs text-white/70 mt-2">
                                
