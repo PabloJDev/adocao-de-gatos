@@ -72,7 +72,7 @@ export default function Certificado() {
         console.error(err);
         alert("Erro ao gerar PDF.");
     }
-
+    alert("Certificado gerado com sucesso!");
     setLoading(false);
 }
 
@@ -94,7 +94,7 @@ export default function Certificado() {
             <NavBar />
 
             <main className="max-w-5xl mx-auto mt-20 text-white">
-                <h1 className="text-5xl font-bold bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent  drop-shadow-2xl mb-4 mb-6">Gerador de Certificado</h1>
+                <h1 className="text-5xl font-bold bg-linear-to-r from-fuchsia-300 via-pink-300 to-rose-300 bg-clip-text text-transparent  drop-shadow-2xl  mb-6">Gerador de Certificado</h1>
 
                 <section className="grid md:grid-cols-2 gap-6 mb-8">
                     
@@ -138,11 +138,13 @@ export default function Certificado() {
 
                                     <h3 className="text-3xl font-semibold mb-4">
                                         {adopterName || "xxxxxxxxxxxxxxxxx"}
+
                                     </h3>
                                     <p className="text-xl mb-6">adotou com amor o gatinho</p>
 
                                     <h4 className="text-2xl font-medium mb-6">
                                         {petName || "xxxxxxxxxxxxxxxx"}
+
                                     </h4>
 
                                     <p className="text-lg mb-10">em {adoptionDate}</p>
@@ -154,7 +156,7 @@ export default function Certificado() {
 
                                 <div className="absolute bottom-20 left-20 text-xs">
                                     <p>Assinatura do responsável</p>
-                                    <div className="w-48 h-8 border-b mt-2" />
+                                    <div className="w-36 h-8 border-b mt-2" />
                                 </div>
 
                                 <div className="absolute bottom-20 right-20 text-xs text-right">
